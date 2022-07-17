@@ -12,18 +12,18 @@
         (005, "Server", 40000, 31),
         (006, "Host", 25000, 31);
 
- INSERT INTO employees (id, first_name, last_name, role_id, manager_id)
- VALUES (100, "Harry", "Styles", 001, null),
-        (101, "Chris", "Hemsworth", 001, null),
-        (200, "Khloe", "Kardashian", 002, 100),
-        (201, "Kylie", "Jenner", 002, 100),
-        (300, "Doja", "Cat", 003, 101),
-        (301, "Kendall", "Jenner", 003, 101),
-        (400, "Kourtney", "Kardashian", 004, 100),
-        (401, "Kris", "Jenner", 004, 100),
-        (500, "Travis", "Barker", 005, 101),
-        (501, "Kim", "Kardashian", 005, 101),
-        (600, "Stormi", "Webster", 006, 101),
-        (601, "Mason", "Disick", 006, 101);
+ INSERT INTO employees (id, first_name, last_name, role_id, department, manager_id)
+ VALUES (100, "Harry", "Styles", 001, 'Manager', null),
+        (101, "Chris", "Hemsworth", 001, 'Manager', null),
+        (200, "Khloe", "Kardashian", 002, 'Chef', 100),
+        (201, "Kylie", "Jenner", 002, 'Chef', 100),
+        (300, "Doja", "Cat", 003, 'Chef', 101),
+        (301, "Kendall", "Jenner", 003, 'Chef', 101),
+        (400, "Kourtney", "Kardashian", 004, 'Back of House', 100),
+        (401, "Kris", "Jenner", 004, 'Back of House', 100),
+        (500, "Travis", "Barker", 005, 'Front of House', 101),
+        (501, "Kim", "Kardashian", 005, 'Front of House', 101),
+        (600, "Stormi", "Webster", 006, 'Front of House', 101),
+        (601, "Mason", "Disick", 006, 'Front of House', 101);
         
 

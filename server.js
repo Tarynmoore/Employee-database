@@ -1,6 +1,9 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
+const cTable = require("console.table");
 require('dotenv').config();
+const express = require('express');
+const { listen } = require('express/lib/application');
 
 const db = mysql.createConnection(
     {
@@ -11,6 +14,7 @@ const db = mysql.createConnection(
     },
     console.log(`connected to db`)
 );
+console.log(db);
 
 const questions = () => {
     inquirer.prompt([
@@ -20,62 +24,106 @@ const questions = () => {
           message: 'Select an option from below',
           choices: [
               {
-                name: 'View all roles',
-                value: 'View_Roles'
+                name: 'View all roles'
               },
               {   
-                name: 'View all employees',
-                value: 'View_Employees'
-              },
-              {
-                name: 'Add a department',
-                value: 'Add_Department'
+                name: 'View all employees'
               }, 
               {
-                name: 'Add a role',
-                value: 'Add_Role'
+                name: 'View all departments'
               },
               {
-                name: 'Add a employee',
-                value: 'Add_Employee'
+                name: 'Add a department'
+              }, 
+              {
+                name: 'Add a role'
               },
               {
-                name: 'Update employee role',
-                value: 'Update_Employee_Role'
-              }
+                name: 'Add a employee'
+              },
+              {
+                name: 'Update employee role'     
+             }
           ]
         }
     ]).then(res => {
-        const choice = res.choices
+        const choice = res.choice
+        console.log(choice)
 
-        if (choice === 'View_Roloes') {
-            viewRoles()
+        if (choice === 'View all roles') {
+            viewRoles();
         } 
+
+        if (choice === 'View all employees') {
+            viewEmployees();
+        }
+
+        if (choice === 'View all departments') {
+            viewDepartments();
+        }
+
+        if (choice === 'Add a department') {
+            addDepartment(); 
+        }
+
+        if (choice === 'Add a role') {
+            addRole();
+        }
+
+
     })
 }
 
 function viewRoles() {
-    // let sql = `SELECT * FROM role`
-    // db.query(sql, (err, result) => {
-    //     if (err){
-    //         return 
-    //     } else {
-    //        console.log()
-    //     }
-    // }
+    let sql = `SELECT * FROM role`
+    db.query(sql, (err,rows) => {
+       console.table(rows)
+       return questions();
+    }
+)};
+
+function viewEmployees() {
+    let sql  = `SELECT * FROM employees`
+    db.query(sql, (err,rows) => {
+        console.table(rows)
+        return questions(); 
+    })
+};
+
+function viewDepartments() {
+    let sql = `SELECT * FROM departments`
+    db.query(sql, (err,rows) => {
+        console.table(rows);
+        return questions();
+    })
 }
-    // .then(res => {
-    //   const choice = res.choices
-    //   console.log(choice)
-    // }
-
-
+  
+function addDepartment() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'department',
+            message: 'Which department would you like to add?',
+        }
+    ]).then(answers => {
+        let sql =`INSERT INTO departments (name) VALUES (?)`;
+        let params = [answers.departmentName];
         
-//         if (choice ===  'View all roles') {
-//             db.query('SELECT (*) FROM roles', function(results) {
-//                 console.log(results)
-//             })
+        db.query(sql, params, (err, rows) => {
+            console.log("Department added");
+            return questions();
+        });
+    })
+}
+
+// function addRole() {
+//     inquirer.prompt([
+//         {
+//             type: 'input',
+//             name: ''
 //         }
-//     })
+//     ])
+// }
+
 
 questions();
