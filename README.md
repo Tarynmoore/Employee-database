@@ -25,3 +25,4 @@ npm start
 ```
 Once the application begins you will be prompted with questions to do whatever you need!
 
+[Untitled_ Jul 19, 2022 12_00 PM (1).webm](https://user-images.githubusercontent.com/101439331/179818364-f221f98f-fa1d-4058-bdfb-902823ba9c20.webm)
