@@ -214,21 +214,38 @@ function addEmployee() {
 };
 
 function updateRole() {
-    // let employees = [];
-    db.query(`SELECT employees.first_name, employees.last_name
+    db.query(`SELECT CONCAT (employees.first_name, ' ', employees.last_name) as name, id as value
             FROM employees`, (err, res) => {
-          console.table(res);
+
+        db.query(`SELECT title as name, id as value
+                FROM role `, (err, role) => {
+
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employees',
+                    message: 'Which employees role would you like to update?',
+                    choices: res
+                },
+                {
+                    type: 'list',
+                    name: 'title',
+                    message: 'What is the role?',
+                    choices: role
+                },
+            ])
+                .then(answer => {
+                    let sql = `UPDATE employees SET role_id = ? WHERE id = ?`
+                    const params = [answer.title, answer.employees]
+                    db.query(sql, params, (err, res) => {
+                        viewEmployees();
+                    })
+
+                    console.log(answer);
+                })
+        })
     })
-  
-    
-    inquirer.prompt([
-        {
-            type: 'list',
-            name: 'employees',
-            message: 'Which employees role would you like to update?',
-            choices: 'names'
-        }
-    ])
 };
+
 
 questions();
